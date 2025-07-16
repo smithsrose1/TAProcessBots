@@ -1,0 +1,9 @@
+// interfaces/AlertTriggerContext.ts
+import { AlertType } from './TimerEvent';
+
+export interface AlertTriggerContext {
+  type: AlertType;
+  targetId: string;
+  elapsedTime: number;
+  metadata?: Record<string, any>;
+}
