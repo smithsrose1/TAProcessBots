@@ -33,14 +33,6 @@ const sampleTasks: Task[] = [
   { id: 3, title: 'Archive completed requisitions', status: 'Completed', dueDate: 'Jun 20' },
 ];
 
-const candidateStatusData = [
-  { name: 'Application Review', value: 45, color: '#3B82F6' },
-  { name: 'Phone Screen', value: 23, color: '#8B5CF6' },
-  { name: 'Technical Interview', value: 18, color: '#F59E0B' },
-  { name: 'Final Interview', value: 12, color: '#10B981' },
-  { name: 'Offer Stage', value: 8, color: '#EF4444' },
-];
-
 const Dashboard: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [candidateStatusData, setCandidateStatusData] = useState<
@@ -50,11 +42,10 @@ const Dashboard: React.FC = () => {
   // Define colors for known stages (adjust or make dynamic as needed)
   const stageColors: Record<string, string> = {
     'Application Review': '#3B82F6',
-    'Phone Screen': '#8B5CF6',
-    'Technical Interview': '#F59E0B',
-    'Final Interview': '#10B981',
-    'Offer Stage': '#EF4444',
-    // fallback color:
+    'Phone': '#8B5CF6',
+    'Technical': '#F59E0B',
+    'Final': '#10B981',
+    'Offer': '#EF4444',
     default: '#9CA3AF',
   };
 
@@ -63,7 +54,8 @@ const Dashboard: React.FC = () => {
       const querySnapshot = await getDocs(collection(db, 'candidates'));
       const data: Candidate[] = [];
       querySnapshot.forEach((doc) => {
-        data.push({ id: doc.id, ...(doc.data() as Candidate) });
+        data.push({ ...(doc.data() as Candidate), id: doc.id });
+
       });
       setCandidates(data);
     }
@@ -90,6 +82,7 @@ const Dashboard: React.FC = () => {
   // state to track filter selection
   const [taskFilter, setTaskFilter] = useState<'All' | Task['status']>('All');
   const statuses: Task['status'][] = ['In-Progress', 'Upcoming', 'Completed'];
+console.log("candidateStatusData", candidateStatusData);
 
   return (
     <div className="space-y-6">
